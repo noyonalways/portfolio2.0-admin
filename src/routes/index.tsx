@@ -1,12 +1,17 @@
 import App from "@/App";
-import { Dashboard } from "@/pages";
+import { AuthLayout } from "@/layouts";
+import ProtectedRoute from "@/layouts/protected";
+import { AddCategory, AddProject, Dashboard, Login, WriteBlog } from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "dashboard",
@@ -16,6 +21,28 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Dashboard />,
+      },
+      {
+        path: "/add-project",
+        element: <AddProject />,
+      },
+      {
+        path: "/write-blog",
+        element: <WriteBlog />,
+      },
+      {
+        path: "/add-category",
+        element: <AddCategory />,
+      },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
       },
     ],
   },
