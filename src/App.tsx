@@ -1,10 +1,9 @@
-import { MainLayout } from "@/layouts";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <MainLayout />
+      <h1 className="text-2xl font-bold">Portfolio Admin</h1>
     </>
   );
 }
