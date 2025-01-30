@@ -1,10 +1,13 @@
+import { RouterProvider } from "react-router-dom";
 import "./App.css";
+import { ThemeProvider } from "./context/theme-provider";
+import router from "./routes";
 
 function App() {
   return (
-    <>
-      <h1 className="text-2xl font-bold">Portfolio Admin</h1>
-    </>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 }
 
