@@ -1,15 +1,41 @@
 import { configureStore } from "@reduxjs/toolkit";
-import logger from "redux-logger";
-import counterReducer from "./features/counterSlice";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import { baseApi } from "./api";
+import authReducer from "./features/auth/authSlice";
 
-export const store = configureStore({
+const persistConfig = {
+  key: "auth",
+  storage,
+};
+
+const persistedAuth = persistReducer(persistConfig, authReducer);
+
+const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
+    auth: persistedAuth,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(baseApi.middleware),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+export const persistor = persistStore(store);
+export default store;
+
+// Infer the `RootState` and `AppDispatch`
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

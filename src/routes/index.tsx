@@ -1,3 +1,4 @@
+import ProtectedRoute from "@/components/ProtectedRoute";
 import MainLayout from "@/layouts";
 import { AddProjectPage, LoginPage, OverviewPage, ProjectsPage } from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
@@ -5,7 +6,7 @@ import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: <ProtectedRoute children={<MainLayout />} />,
     children: [
       {
         index: true,

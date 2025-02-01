@@ -28,6 +28,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useTheme } from "@/hooks/useTheme";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hook";
 
 export function NavUser({
   user,
@@ -40,6 +42,7 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
   const { setTheme, theme } = useTheme();
+  const dispatch = useAppDispatch();
 
   return (
     <SidebarMenu>
@@ -109,7 +112,10 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer text-red-500 hover:!bg-red-500/20 hover:!text-red-500"
+              onClick={() => dispatch(logout())}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>
