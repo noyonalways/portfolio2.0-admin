@@ -1,4 +1,9 @@
 import { baseApi } from "@/redux/api";
+import { TResponseError } from "@/types";
+
+interface ErrorResponse {
+  data?: TResponseError;
+}
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,6 +13,9 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      transformErrorResponse: (response: ErrorResponse) => {
+        return response?.data;
+      },
     }),
   }),
 });
