@@ -8,13 +8,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTheme } from "@/hooks/useTheme";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { formSchema, TFormSchema } from "@/schemas";
-import { TUser } from "@/types";
+import { TResponseError, TUser } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
+import { Moon, Sun } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -22,6 +24,7 @@ import { toast } from "sonner";
 export default function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { setTheme, theme } = useTheme();
 
   const form = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
@@ -30,23 +33,36 @@ export default function LoginPage() {
   const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data: TFormSchema) => {
-    const response = await login(data).unwrap();
-    if (response.success) {
-      toast.success("Login successful");
-      const user = jwtDecode(response.data.token);
-      dispatch(
-        setUser({
-          token: response.data.token,
-          user: user as TUser,
-        })
-      );
-
-      navigate("/");
+    try {
+      const response = await login(data).unwrap();
+      if (response.success) {
+        toast.success("Login successful");
+        const user = jwtDecode(response.data.token);
+        dispatch(
+          setUser({
+            token: response.data.token,
+            user: user as TUser,
+          })
+        );
+        navigate("/");
+      }
+    } catch (err) {
+      const error = err as TResponseError;
+      if (!error.success) {
+        toast.error(error.message);
+      }
     }
   };
 
   return (
-    <section className="flex justify-center items-center h-screen">
+    <section className="flex justify-center items-center h-svh px-4 lg:px-0 relative">
+      <button
+        className="absolute right-4 top-4 rounded-full border p-2"
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      >
+        {theme === "dark" ? <Moon size={20} /> : <Sun size={20} />}
+      </button>
+
       <div className="max-w-md w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
