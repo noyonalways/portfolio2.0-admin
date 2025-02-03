@@ -1,6 +1,13 @@
 import ProtectedRoute from "@/components/ProtectedRoute";
 import MainLayout from "@/layouts";
-import { AddProjectPage, LoginPage, OverviewPage, ProjectsPage } from "@/pages";
+import {
+  AddBlogPage,
+  AddProjectPage,
+  BlogsPage,
+  LoginPage,
+  OverviewPage,
+  ProjectsPage,
+} from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -23,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "add-project",
         element: <AddProjectPage />,
+      },
+      {
+        path: "blogs",
+        element: <BlogsPage />,
+      },
+      {
+        path: "add-blog",
+        element: <AddBlogPage />,
       },
     ],
   },

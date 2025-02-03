@@ -1,9 +1,9 @@
 export type TUser = {
-  userId: string;
-  email: string;
-  role: string;
-  iat: number;
-  exp: number;
+  _id?: string;
+  email?: string;
+  role?: string;
+  name?: string;
+  avatar?: string;
 };
 
 export type TResponseError = {
