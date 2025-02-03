@@ -1,12 +1,10 @@
 import {
   Book,
-  BookOpen,
-  Bot,
   Folder,
   Frame,
   Github,
+  LayoutGrid,
   Linkedin,
-  Settings2,
 } from "lucide-react";
 import * as React from "react";
 
@@ -21,6 +19,8 @@ import { NavMain } from "./nav-main";
 import { OthersLinks } from "./nav-projects";
 import { NavUser } from "./nav-user";
 import { TeamSwitcher } from "./team-switcher";
+import { useAppSelector } from "@/redux/hook";
+import { selectUser } from "@/redux/features/auth/authSlice";
 
 const Logo = () => (
   <React.Fragment>
@@ -45,10 +45,17 @@ const data = {
   ],
   navMain: [
     {
+      title: "Overview",
+      url: "/overview",
+      icon: LayoutGrid,
+      collapsible: false,
+    },
+    {
       title: "Projects",
       url: "/",
       icon: Folder,
       isActive: true,
+      collapsible: true,
       items: [
         {
           title: "Add Projects",
@@ -61,67 +68,19 @@ const data = {
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
+      title: "Blogs",
+      url: "/blogs",
+      icon: Book,
+      isActive: true,
+      collapsible: true,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Add Blogs",
+          url: "/add-blog",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "Blogs",
+          url: "/blogs",
         },
       ],
     },
@@ -135,7 +94,7 @@ const data = {
     },
     {
       name: "Blogs",
-      url: "https://noyonrahman.xyz/blogs",
+      url: "https://blog.noyonrahman.xyz",
       icon: Book,
       target: "_blank",
     },
@@ -155,6 +114,12 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const user = useAppSelector(selectUser);
+
+  data.user.avatar = user?.avatar || "";
+  data.user.email = user?.email || "";
+  data.user.name = user?.name || "";
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

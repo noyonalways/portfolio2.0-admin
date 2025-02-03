@@ -5,12 +5,14 @@ import {
   FetchArgs,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
+import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
   credentials: "include",
-  prepareHeaders: async (headers) => {
-    const token = "1234567890";
+  prepareHeaders: async (headers, { getState }) => {
+    const token = (getState() as RootState).auth.token;
+
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
