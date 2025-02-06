@@ -75,7 +75,7 @@ const data = {
       collapsible: true,
       items: [
         {
-          title: "Add Blogs",
+          title: "Add Blog",
           url: "/add-blog",
         },
         {

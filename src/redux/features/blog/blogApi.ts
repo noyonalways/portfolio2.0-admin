@@ -1,4 +1,5 @@
 import { baseApi } from "@/redux/api"; // Import the base API
+import { TBlog, TResponse } from "@/types";
 
 export const blogApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,12 +9,14 @@ export const blogApi = baseApi.injectEndpoints({
         method: "POST",
         body: newBlog,
       }),
+      invalidatesTags: ["Blogs"],
     }),
-    getBlogs: builder.query({
+    getBlogs: builder.query<TResponse<TBlog[]>, void>({
       query: () => ({
         url: "/blogs", // Adjust the endpoint as necessary
         method: "GET",
       }),
+      providesTags: ["Blogs"],
     }),
     getBlogById: builder.query({
       query: (id) => ({
@@ -33,6 +36,7 @@ export const blogApi = baseApi.injectEndpoints({
         url: `/blogs/${id}`, // Adjust the endpoint as necessary
         method: "DELETE",
       }),
+      invalidatesTags: ["Blogs"],
     }),
   }),
 });

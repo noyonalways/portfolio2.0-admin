@@ -26,10 +26,15 @@ export const createBlogSchema = z.object({
     invalid_type_error: "Brief must be string",
     required_error: "Brief is required",
   }),
-  cover: z.string({
-    invalid_type_error: "Cover must be string",
-    required_error: "Cover is required",
-  }),
+  cover: z
+    .instanceof(File)
+    .refine(
+      (file) => file.size <= 10 * 1024 * 1024,
+      "File size should be less than 10MB"
+    )
+    .refine((file) => file.type.startsWith("image/"), {
+      message: "Only image files are allowed",
+    }),
   author: author,
   contentType: z.enum(["mdx", "text", "string"] as [string, ...string[]]),
   tags: z.array(z.string(), {

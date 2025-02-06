@@ -1,5 +1,5 @@
 export * from "./category";
-
+export * from "./blog";
 export type TUser = {
   _id?: string;
   email?: string;
