@@ -16,10 +16,9 @@ import {
   setUser,
 } from "@/redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { formSchema, TFormSchema } from "@/schemas";
+import { formSchema, TLoginFormSchema } from "@/schemas";
 import { TResponseError } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { LoaderCircle, Moon, Sun } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -32,7 +31,7 @@ export default function LoginPage() {
   const { setTheme, theme } = useTheme();
   const token = useAppSelector(selectToken);
 
-  const form = useForm<TFormSchema>({
+  const form = useForm<TLoginFormSchema>({
     resolver: zodResolver(formSchema),
   });
 
@@ -51,7 +50,7 @@ export default function LoginPage() {
     }
   }, [isUserDataSuccess, userData, dispatch, navigate]);
 
-  const onSubmit = async (data: TFormSchema) => {
+  const onSubmit = async (data: TLoginFormSchema) => {
     try {
       const response = await login(data).unwrap();
       if (response.success) {
