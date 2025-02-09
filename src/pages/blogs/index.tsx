@@ -23,6 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 const Blogs = () => {
   const { data: blogs, isFetching } = useGetBlogsQuery(undefined);
@@ -91,9 +92,7 @@ const Blogs = () => {
                       </div>
                     </TableCell>
                     <TableCell className="capitalize">
-                      <span className="bg-foreground dark:bg-foreground text-white dark:text-black p-3 py-1 rounded-full text-xs">
-                        {blog.status}
-                      </span>
+                      <Badge className="capitalize">{blog.status}</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end">
