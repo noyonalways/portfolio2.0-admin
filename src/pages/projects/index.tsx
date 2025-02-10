@@ -1,6 +1,5 @@
 import { useGetProjectsQuery } from "@/redux/features/project/projectApi";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash } from "lucide-react";
 import { TProject } from "@/types";
 import {
   Table,
@@ -10,8 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import UpdateProjectModal from "@/components/modals/update-project-modal";
+import DeleteProjectModal from "@/components/modals/delete-project-modal";
 
 const ProjectsPage = () => {
   const { data: projects, isLoading } = useGetProjectsQuery();
@@ -61,12 +61,8 @@ const ProjectsPage = () => {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex gap-4 justify-end">
-                        <Button variant="outline" size="icon">
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button variant="outline" size="icon">
-                          <Trash className="h-4 w-4" />
-                        </Button>
+                        <UpdateProjectModal project={project} />
+                        <DeleteProjectModal projectId={project._id} />
                       </div>
                     </TableCell>
                   </TableRow>

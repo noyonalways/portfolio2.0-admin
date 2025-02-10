@@ -18,11 +18,12 @@ const projectApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Projects"],
     }),
-    getProjectById: builder.query({
+    getProjectById: builder.query<TResponse<TProject>, string>({
       query: (id) => ({
-        url: `/projects/${id}`,
+        url: `/projects/${id}`, // Adjust the endpoint as necessary
         method: "GET",
       }),
+      providesTags: ["Projects"],
     }),
     updateProject: builder.mutation({
       query: ({ id, ...updatedProject }) => ({
