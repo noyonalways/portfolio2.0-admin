@@ -19,8 +19,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { formSchema, TLoginFormSchema } from "@/schemas";
 import { TResponseError } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoaderCircle, Moon, Sun } from "lucide-react";
-import { useEffect } from "react";
+import { Eye, EyeOff, LoaderCircle, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -30,6 +30,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const { setTheme, theme } = useTheme();
   const token = useAppSelector(selectToken);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<TLoginFormSchema>({
     resolver: zodResolver(formSchema),
@@ -108,15 +109,30 @@ export default function LoginPage() {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="relative">
                         <Label htmlFor="password">Password</Label>
                         <FormControl>
-                          <Input
-                            id="password"
-                            type="password"
-                            placeholder="********"
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Input
+                              id="password"
+                              type={showPassword ? "text" : "password"}
+                              placeholder="********"
+                              {...field}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
