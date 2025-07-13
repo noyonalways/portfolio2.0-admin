@@ -6,6 +6,9 @@ export const dashboardApi = baseApi.injectEndpoints({
       query: () => ({
         url: "/dashboard",
         method: "GET",
+        params: {
+          isDeleted: "false",
+        },
       }),
     }),
   }),
