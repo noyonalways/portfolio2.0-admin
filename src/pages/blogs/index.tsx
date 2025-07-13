@@ -1,17 +1,5 @@
-import {
-  useDeleteBlogMutation,
-  useGetBlogsQuery,
-} from "@/redux/features/blog/blogApi";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Loader2, Trash2 } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -22,8 +10,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  useDeleteBlogMutation,
+  useGetBlogsQuery,
+} from "@/redux/features/blog/blogApi";
+import { Loader2, Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
 
 const Blogs = () => {
   const { data: blogs, isFetching } = useGetBlogsQuery(undefined);
@@ -71,12 +72,18 @@ const Blogs = () => {
                         <img
                           src={blog.cover}
                           alt={blog.title}
-                          className="w-full object-cover"
+                          className="w-full object-cover rounded"
                         />
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="w-[180px] lg:w-auto">{blog.title}</div>
+                      <Link
+                        target="_blank"
+                        to={`https://noyonrahman.vercel.app/blogs/${blog?.slug}`}
+                        className="w-[180px] lg:w-auto"
+                      >
+                        {blog.title}
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <div className="w-[100px] lg:w-auto">

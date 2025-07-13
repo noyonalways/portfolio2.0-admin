@@ -1,6 +1,6 @@
-import { useGetProjectsQuery } from "@/redux/features/project/projectApi";
+import DeleteProjectModal from "@/components/modals/delete-project-modal";
+import UpdateProjectModal from "@/components/modals/update-project-modal";
 import { Badge } from "@/components/ui/badge";
-import { TProject } from "@/types";
 import {
   Table,
   TableBody,
@@ -9,9 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useGetProjectsQuery } from "@/redux/features/project/projectApi";
+import { TProject } from "@/types";
 import { Loader2 } from "lucide-react";
-import UpdateProjectModal from "@/components/modals/update-project-modal";
-import DeleteProjectModal from "@/components/modals/delete-project-modal";
 
 const ProjectsPage = () => {
   const { data: projects, isLoading } = useGetProjectsQuery();
@@ -29,9 +29,9 @@ const ProjectsPage = () => {
             <Table className="min-w-[800px] lg:min-w-full">
               <TableHeader className="bg-sidebar">
                 <TableRow>
+                  <TableHead>Cover</TableHead>
                   <TableHead>Title</TableHead>
                   <TableHead>Brief</TableHead>
-                  <TableHead>Cover</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -40,17 +40,17 @@ const ProjectsPage = () => {
               <TableBody>
                 {projects?.data?.map((project: TProject) => (
                   <TableRow key={project._id}>
-                    <TableCell className="font-medium">
-                      {project.title}
-                    </TableCell>
-                    <TableCell>{project.brief}</TableCell>
                     <TableCell>
                       <img
                         src={project.cover}
                         alt={project.title}
-                        className="w-24 h-24 object-cover"
+                        className="w-24 h-24 object-cover rounded"
                       />
                     </TableCell>
+                    <TableCell className="font-medium">
+                      {project.title}
+                    </TableCell>
+                    <TableCell>{project.brief}</TableCell>
                     <TableCell className="capitalize">
                       <div className="w-[100px] lg:w-auto">
                         {project.type.replace("-", " ")}
